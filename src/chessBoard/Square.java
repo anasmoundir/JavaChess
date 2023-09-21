@@ -1,9 +1,19 @@
 package chessBoard;
 
+import ElementsOfTheChess.Piece;
+
 public class Square {
     private String color;
     private boolean available;
-    
+    Piece piece;
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
 
     private int x;
     private int y;
