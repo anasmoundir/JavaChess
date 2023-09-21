@@ -11,6 +11,7 @@ public class Square {
         return piece;
     }
 
+
     public void setPiece(Piece piece) {
         this.piece = piece;
     }

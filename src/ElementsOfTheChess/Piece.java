@@ -1,6 +1,9 @@
 package ElementsOfTheChess;
 
 public class Piece {
+
+
+    private String name;
         private String color;
         private boolean stillOnBoard;
         Bishop bishop;
@@ -10,6 +13,10 @@ public class Piece {
         Queen queen;
         Rook rook;
 
+    public Piece() {
+
+    }
+
     public String getColor() {
         return color;
     }
@@ -17,6 +24,14 @@ public class Piece {
     public void setColor(String color) {
         this.color = color;
     }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public boolean isStillOnBoard() {
         return stillOnBoard;
@@ -73,25 +88,31 @@ public class Piece {
     public void setRook(Rook rook) {
         this.rook = rook;
     }
-    public  Piece(String name,String color) throws IllegalAccessException {
+    public Piece(String name,String color) throws IllegalAccessException {
             this.color =color;
         switch (name.toLowerCase()) {
             case "bishop":
+                this.name ="bishop";
                 bishop = new Bishop(color);
                 break;
             case "king":
+                this.name ="king";
                 king = new King(color);
                 break;
             case "knight":
+                this.name ="knight";
                 knight = new Knight(color);
                 break;
-            case "pawn":
+            case "pown":
+                this.name="pown";
                 pown = new Pown(color);
                 break;
             case "queen":
+                this.name="queen";
                 queen = new Queen(color);
                 break;
             case "rook":
+                this.name="rook";
                 rook = new Rook(color);
                 break;
             default:
