@@ -60,4 +60,8 @@ public class Square {
     public void setY(int y) {
         this.y = y;
     }
+    public boolean isValidPosition() {
+
+        return x >= 0 && x < 8 && y >= 0 && y < 8 && !available;
+    }
 }
