@@ -48,8 +48,8 @@ public class Board {
 
                     } else {
                          System.out.print(squares[x][y].getColor() + "  ");
-                         System.out.print(squares[x][y].getX());
-                         System.out.print((char)(squares[x][y].getX()+65));
+//                         System.out.print(squares[x][y].getX());
+//                         System.out.print((char)(squares[x][y].getX()+65));
                     }
                }
           }
@@ -61,7 +61,7 @@ public class Board {
 
 
           squares[0][0].setPiece(new Piece("king", "white"));
-          System.out.println(squares[0][0].isAvailable() = false);
+//          System.out.println(squares[0][0].isAvailable() = false);
           squares[0][1].setPiece(new Piece("knight", "white"));
           squares[0][2].setPiece(new Piece("bishop", "white"));
           squares[0][3].setPiece(new Piece("queen", "white"));
