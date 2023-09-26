@@ -6,7 +6,7 @@ import static java.awt.Color.white;
 
 public class Board {
 
-     private static Square[][] squares;
+     public static Square[][] squares;
 
 
      public static void setSquares(Square[][] squares) {

@@ -7,6 +7,9 @@ import ElementsOfTheChess.Pown;
 import ElementsOfTheChess.Rook;
 import Players.Adversaires;
 import chessBoard.Board;
+import chessBoard.Square;
+
+import static chessBoard.Board.squares;
 
 public class RulesForTheGame {
 
@@ -80,20 +83,8 @@ public class RulesForTheGame {
         return  false;
     }
 
-    public boolean isValidBishopMove(Piece piece,int startX,int startY,int endX,int endY)
-    {
-        if(!isValidCoordinate(startX,startY) || !isValidCoordinate(endX,endY))
-        {
-            return  false;
-        }
 
-        return  false;
-    }
-    public boolean isValidRookMove(Piece piece,int startX,int startY,int endX,int endY)
-    {
 
-        return false;
-    }
     public  boolean isValidQueenMove(Piece piece,int startX,int startY,int endX,int endY)
     {
         return false;
@@ -120,6 +111,76 @@ public class RulesForTheGame {
 
     }
 
+    public boolean isValidBishopMove(Piece piece,int startX,int startY,int endX,int endY)
+    {
+        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
+            return false;
+        }
+
+        int rowDiff = Math.abs(endX - startX);
+        int colDiff = Math.abs(endY - startY);
+
+        if (rowDiff == colDiff) {
+            int rowStep = (endX > startX) ? 1 : -1;
+            int colStep = (endY > startY) ? 1 : -1;
+
+            for (int i = 1; i < rowDiff; i++) {
+                int nextX = startX + i * rowStep;
+                int nextY = startY + i * colStep;
+
+
+                Square[][] squares = Board.getSquares();
+
+                if (squares[nextX][nextY].getPiece() != null) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+    public boolean isValidRookMove(Piece piece,int startX,int startY,int endX,int endY)
+    {
+        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
+            return false;
+        }
+        Square[][] squares = Board.getSquares();
+        int rowDiff = Math.abs(endX - startX);
+        int colDiff = Math.abs(endY - startY);
+
+        if (rowDiff == 0 && colDiff > 0) {
+            return isVerticalPathClear(startX, startY, endX, endY);
+        } else if (rowDiff > 0 && colDiff == 0) {
+            return isHorizontalPathClear(startX, startY, endX, endY);
+        }
+
+        return false;
+    }
+
+
+    private boolean isVerticalPathClear(int startX, int startY, int endX, int endY) {
+        int step = (endY > startY) ? 1 : -1;
+        Square[][] squares = Board.getSquares();
+        for (int i = startY + step; i != endY; i += step) {
+            if (squares[startX][i].getPiece() != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isHorizontalPathClear(int startX, int startY, int endX, int endY) {
+        int step = (endX > startX) ? 1 : -1;
+        Square[][] squares = Board.getSquares();
+        for (int i = startX + step; i != endX; i += step) {
+            if (squares[i][startY].getPiece() != null) {
+                return false; // There's a piece in the path
+            }
+        }
+        return  true;
+    }
     private boolean isValidCoordinate(int x, int y)
     {
         return x >=0 && x<8 && y >=0  && y <8;
