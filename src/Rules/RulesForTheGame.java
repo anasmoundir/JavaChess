@@ -1,10 +1,7 @@
 package Rules;
 
 
-import ElementsOfTheChess.King;
-import ElementsOfTheChess.Piece;
-import ElementsOfTheChess.Pown;
-import ElementsOfTheChess.Rook;
+import ElementsOfTheChess.*;
 import Players.Adversaires;
 import Players.Player;
 import chessBoard.Board;
@@ -121,69 +118,7 @@ public class RulesForTheGame {
         return piece != null && !piece.getColor().equals(color) && piece.getName().equals("pawn");
     }
 
-    public static boolean isValidPownMove(Piece piece, int startX, int startY, int endX, int endY) {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            return false;
-        }
 
-        if (!piece.getName().equalsIgnoreCase("pawn")) {
-            return false;
-        }
-
-        String pawnColor = piece.getColor();
-
-        int rowDiff = endX - startX;
-        int colDiff = Math.abs(endY - startY);
-
-        if (pawnColor.equalsIgnoreCase("white")) {
-            if (rowDiff == -1 && colDiff == 0) {
-                return true;
-            }
-        } else if (pawnColor.equalsIgnoreCase("black")) {
-            if (rowDiff == 1 && colDiff == 0) {
-                return true;
-            }
-        }
-
-        if (pawnColor.equalsIgnoreCase("white") && startX == 6) {
-            if (rowDiff == -2 && colDiff == 0) {
-                return true;
-            }
-        } else if (pawnColor.equalsIgnoreCase("black") && startX == 1) {
-            if (rowDiff == 2 && colDiff == 0) {
-                return true;
-            }
-        }
-
-        if (colDiff == 1 && (pawnColor.equalsIgnoreCase("white") && rowDiff == -1 || pawnColor.equalsIgnoreCase("black") && rowDiff == 1)) {
-            return true;
-        }
-        return false;
-    }
-    
-    public static boolean isValidKnightMove(Piece piece, int startX, int startY, int endX, int endY)
-    {
-        if(!isValidCoordinate(startX,startY) || !isValidCoordinate(endX,endY))
-        {
-            return  false;
-        }
-        return  false;
-    }
-
-
-
-    public static boolean isValidQueenMove(Piece piece, int startX, int startY, int endX, int endY)
-    {
-        return false;
-    }
-    public  void  movepiece(Piece piece, int startX,int startY,int endX,int endY)
-    {
-
-    }
-    public void promotePawn(Pown pown,Piece newPiece)
-    {
-
-    }
     public void undoMove()
     {
 
@@ -211,7 +146,6 @@ public class RulesForTheGame {
 
         squares[startX][startY].removePiece();
         squares[endX][endY].setPiece(piece);
-
         piece.setX(endX);
         piece.setY(endY);
     }
@@ -222,24 +156,7 @@ public class RulesForTheGame {
             throw new IllegalArgumentException("Invalid move.");
         }
     }
-    public void movePiece(int startX, int startY, int endX, int endY) {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            throw new IllegalArgumentException("Invalid coordinates for move.");
-        }
 
-        Square[][] squares = getSquares();
-        Piece piece = squares[startX][startY].getPiece();
-
-        if (piece == null) {
-            throw new IllegalArgumentException("No piece at the starting square.");
-        }
-
-        squares[startX][startY].removePiece();
-        squares[endX][endY].setPiece(piece);
-
-        piece.setX(endX);
-        piece.setY(endY);
-    }
     public static   boolean isValidMove(Player player, int startX, int startY, int endX, int endY, String pieceType) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             return false;
@@ -248,69 +165,26 @@ public class RulesForTheGame {
         Piece piece = squares[startX][startY].getPiece();
          switch (pieceType.toLowerCase()) {
             case "pown":
-                return isValidPownMove(piece, startX, startY, endX, endY);
+                return Pown.isValidPownMove(piece, startX, startY, endX, endY);
             case "rook":
-                return isValidRookMove(piece, startX, startY, endX, endY);
+                return Rook.isValidRookMove(piece, startX, startY, endX, endY);
             case "knight":
-                return isValidKnightMove(piece, startX, startY, endX, endY);
+                return Knight.isValidKnightMove(piece, startX, startY, endX, endY);
             case "bishop":
-                return isValidBishopMove(piece, startX, startY, endX, endY);
+                return Bishop.isValidBishopMove(piece, startX, startY, endX, endY);
             case "queen":
-                return isValidQueenMove(piece, startX, startY, endX, endY);
+                return Queen.isValidQueenMove(piece, startX, startY, endX, endY);
             case "king":
-                return isValidKingMove(piece, startX, startY, endX, endY);
+                return King.isValidKingMove(piece, startX, startY, endX, endY);
             default:
                 return false;
         }
     }
 
-    private static boolean isValidKingMove(Piece piece, int startX, int startY, int endX, int endY) {
-    }
-
-    public static boolean isValidBishopMove(Piece piece, int startX, int startY, int endX, int endY)
-    {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            return false;
-        }
-        int rowDiff = Math.abs(endX - startX);
-        int colDiff = Math.abs(endY - startY);
-
-        if (rowDiff == colDiff) {
-            int rowStep = (endX > startX) ? 1 : -1;
-            int colStep = (endY > startY) ? 1 : -1;
-
-            for (int i = 1; i < rowDiff; i++) {
-                int nextX = startX + i * rowStep;
-                int nextY = startY + i * colStep;
-                Square[][] squares = getSquares();
-                if (squares[nextX][nextY].getPiece() != null) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isValidRookMove(Piece piece, int startX, int startY, int endX, int endY)
-    {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            return false;
-        }
-        Square[][] squares = getSquares();
-        int rowDiff = Math.abs(endX - startX);
-        int colDiff = Math.abs(endY - startY);
-
-        if (rowDiff == 0 && colDiff > 0) {
-            return isVerticalPathClear(startX, startY, endX, endY);
-        } else if (rowDiff > 0 && colDiff == 0) {
-            return isHorizontalPathClear(startX, startY, endX, endY);
-        }
-        return false;
-    }
 
 
-    private boolean isVerticalPathClear(int startX, int startY, int endX, int endY) {
+
+    public static boolean isVerticalPathClear(int startX, int startY, int endX, int endY) {
         int step = (endY > startY) ? 1 : -1;
         Square[][] squares = getSquares();
         for (int i = startY + step; i != endY; i += step) {
@@ -321,7 +195,7 @@ public class RulesForTheGame {
         return true;
     }
 
-    private boolean isHorizontalPathClear(int startX, int startY, int endX, int endY) {
+    public static boolean isHorizontalPathClear(int startX, int startY, int endX, int endY) {
         int step = (endX > startX) ? 1 : -1;
         Square[][] squares = getSquares();
         for (int i = startX + step; i != endX; i += step) {
@@ -331,7 +205,7 @@ public class RulesForTheGame {
         }
         return  true;
     }
-    static boolean isValidCoordinate(int x, int y)
+    public static boolean isValidCoordinate(int x, int y)
     {
         return x >=0 && x<8 && y >=0  && y <8;
     }
