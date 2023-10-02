@@ -2,6 +2,8 @@ package chessBoard;
 
 import ElementsOfTheChess.*;
 
+import java.util.Optional;
+
 import static java.awt.Color.white;
 
 public class Board {
@@ -19,6 +21,7 @@ public class Board {
            initializePieces();
            displayTheSquare();
 
+
      }
 
 
@@ -30,8 +33,7 @@ public class Board {
                for (int y = 0;y<= 7;y++ )
                {
                     String color = (x+y) % 2 == 0 ? "white" : "black";
-                    squares[x][y] = new Square(color,true,x,y);
-
+                         squares[x][y] = new Square(color,true,x,y);
                }
           }
           squares[0][0].setColor("yellow");
@@ -44,12 +46,11 @@ public class Board {
                     Piece piece = squares[x][y].getPiece();
                     if (piece != null) {
                          System.out.print(squares[x][y].getPiece().getName()+ "  ");
-                         System.out.print((char)(squares[x][y].getX()+65));
+//                         System.out.print((char)(squares[x][y].getX()+65));
 
                     } else {
                          System.out.print(squares[x][y].getColor() + "  ");
-//                         System.out.print(squares[x][y].getX());
-//                         System.out.print((char)(squares[x][y].getX()+65));
+                             System.out.print(squares[x][y].getX());
                     }
                }
           }
@@ -57,11 +58,10 @@ public class Board {
      public static Square[][] getSquares() {
           return squares;
      }
-     private void initializePieces() throws IllegalAccessException {
+     public void initializePieces() throws IllegalAccessException {
 
 
           squares[0][0].setPiece(new Piece("king", "white"));
-//          System.out.println(squares[0][0].isAvailable() = false);
           squares[0][1].setPiece(new Piece("knight", "white"));
           squares[0][2].setPiece(new Piece("bishop", "white"));
           squares[0][3].setPiece(new Piece("queen", "white"));
@@ -69,7 +69,6 @@ public class Board {
           squares[0][5].setPiece(new Piece("bishop", "white"));
           squares[0][6].setPiece(new Piece("knight", "white"));
           squares[0][7].setPiece(new Piece("rook", "white"));
-
           for (int col = 0; col < 8; col++) {
                squares[1][col].setPiece(new Piece("pown", "white"));
           }
@@ -89,4 +88,5 @@ public class Board {
 
 
 }
+
 }

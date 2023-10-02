@@ -1,20 +1,16 @@
 package ElementsOfTheChess;
 
+import chessBoard.Board;
+
 public class Piece {
-
-
     private String name;
-        private String color;
-        private boolean stillOnBoard;
-        Bishop bishop;
-        King king;
-        Knight knight;
-        Pown pown;
-        Queen queen;
-        Rook rook;
+    private String color;
+    private boolean stillOnBoard;
+    private int x;
+    private int y;
+
 
     public Piece() {
-
     }
 
     public String getColor() {
@@ -24,6 +20,7 @@ public class Piece {
     public void setColor(String color) {
         this.color = color;
     }
+
     public String getName() {
         return name;
     }
@@ -32,7 +29,6 @@ public class Piece {
         this.name = name;
     }
 
-
     public boolean isStillOnBoard() {
         return stillOnBoard;
     }
@@ -40,89 +36,62 @@ public class Piece {
     public void setStillOnBoard(boolean stillOnBoard) {
         this.stillOnBoard = stillOnBoard;
     }
-
-    public Bishop getBishop() {
-        return bishop;
+    public void removeFromBoard() {
+        this.stillOnBoard = false;
     }
 
-    public void setBishop(Bishop bishop) {
-        this.bishop = bishop;
+    // Methods to get and set X and Y coordinates
+    public int getX() {
+        return x;
     }
 
-    public King getKing() {
-        return king;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public void setKing(King king) {
-        this.king = king;
+    public int getY() {
+        return y;
     }
 
-    public Knight getKnight() {
-        return knight;
+    public void setY(int y) {
+        this.y = y;
     }
 
-    public void setKnight(Knight knight) {
-        this.knight = knight;
-    }
-
-    public Pown getPown() {
-        return pown;
-    }
-
-    public void setPown(Pown pown) {
-        this.pown = pown;
-    }
-
-    public Queen getQueen() {
-        return queen;
-    }
-
-    public void setQueen(Queen queen) {
-        this.queen = queen;
-    }
-
-    public Rook getRook() {
-        return rook;
-    }
-
-    public void setRook(Rook rook) {
-        this.rook = rook;
-    }
-    public Piece(String name,String color) throws IllegalAccessException {
-            this.color =color;
+    public Piece(String name, String color) throws IllegalAccessException {
+        this.color = color;
         switch (name.toLowerCase()) {
             case "bishop":
-                this.name ="bishop";
-                bishop = new Bishop(color);
+                this.name = "bishop";
                 break;
             case "king":
-                this.name ="king";
-                king = new King(color);
+                this.name = "king";
                 break;
             case "knight":
-                this.name ="knight";
-                knight = new Knight(color);
+                this.name = "knight";
                 break;
             case "pown":
-                this.name="pown";
-                pown = new Pown(color);
+                this.name = "pown";
                 break;
             case "queen":
-                this.name="queen";
-                queen = new Queen(color);
+                this.name = "queen";
                 break;
             case "rook":
-                this.name="rook";
-                rook = new Rook(color);
+                this.name = "rook";
                 break;
             default:
                 throw new IllegalAccessException("Wrong selection of the piece: " + name);
         }
-
     }
-     public Piece(String color)
-     {
-         this.color =color;
-     }
+
+    private static boolean isValidMove(Board board, String sourceSquare, String destinationSquare) {
+
+
+        return true;
+    }
+
+    public Piece(String color) {
+        this.color = color;
+    }
+
 
 }
