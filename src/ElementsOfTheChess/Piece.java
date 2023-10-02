@@ -40,7 +40,7 @@ public class Piece {
         this.stillOnBoard = false;
     }
 
-    // Methods to get and set X and Y coordinates
+
     public int getX() {
         return x;
     }
@@ -83,11 +83,6 @@ public class Piece {
         }
     }
 
-    private static boolean isValidMove(Board board, String sourceSquare, String destinationSquare) {
-
-
-        return true;
-    }
 
     public Piece(String color) {
         this.color = color;

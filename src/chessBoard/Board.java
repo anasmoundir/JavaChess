@@ -21,7 +21,6 @@ public class Board {
            initializePieces();
            displayTheSquare();
 
-
      }
 
 

@@ -30,7 +30,7 @@ public class Main {
 
                 if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceType)) {
 
-                    if (rules.isCheckmate()|| rules.isStalemate(currentPlayer)) {
+                    if (rules.isCheckmate(currentPlayer)|| rules.isStalemate(currentPlayer)) {
                         gameOver = true;
                         System.out.println("Game Over!");
                     } else {

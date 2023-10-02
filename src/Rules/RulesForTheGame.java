@@ -2,7 +2,6 @@ package Rules;
 
 
 import ElementsOfTheChess.*;
-import Players.Adversaires;
 import Players.Player;
 import chessBoard.Board;
 import chessBoard.Square;
@@ -16,9 +15,6 @@ public class RulesForTheGame {
     {
 
     }
-    public RulesForTheGame() throws IllegalAccessException {
-    }
-
 
     public boolean isPathClear(int startX,int startY, int endX, int endY)
     {
@@ -26,63 +22,54 @@ public class RulesForTheGame {
         return  varriable;
     }
 
-    public boolean canCastle(King king, Rook rook)
-    {
-        boolean  pourevitererur =false;
-        return  pourevitererur;
-    }
-    public  boolean isCheckmate(King king)
-    {
-        boolean  pourevitererur =false;
-        return  pourevitererur;
-    }
-    public boolean canEscapeCheck(Player currentPlayer, King king) {
+    public boolean isCheck(Player currentPlayer) {
+        King king = findKing(currentPlayer);
         int kingX = king.getX();
         int kingY = king.getY();
         Square[][] squares = getSquares();
-
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) {
-                    continue;
-                }
-
-                int newKingX = kingX + dx;
-                int newKingY = kingY + dy;
-
-                if (!isValidCoordinate(newKingX, newKingY)) {
-                    continue;
-                }
-
-                if (!isUnderThreat(currentPlayer, newKingX, newKingY)) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-
-    private boolean isUnderThreat(Player currentPlayer, int newKingX, int newKingY) {
-        String opponentColor = (currentPlayer.CouleurPlayer.white == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.toString() : Player.CouleurPlayer.white.toString();
-
-        Square[][] squares = getSquares();
+        String opponentColor = (currentPlayer.getColor() == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.toString();
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Piece piece = squares[x][y].getPiece();
                 if (piece != null && piece.getColor().equals(opponentColor)) {
-                    if (RulesForTheGame.isValidMove(x, y, newKingX, newKingY)) {
+                    if (isValidMove(currentPlayer, x, y, kingX, kingY, piece.getName())) {
                         return true;
                     }
                 }
             }
         }
-
-
         return false;
     }
 
-    public boolean isStalemate(Adversaires currentplayer)
+    public boolean isCheckmate(Player currentPlayer) {
+        King king = findKing(currentPlayer);
+        if (isCheck(currentPlayer)) {
+            for (Piece piece : currentPlayer.getPieces()) {
+                for (int x = 0; x < 8; x++) {
+                    for (int y = 0; y < 8; y++) {
+                        if (isValidMove(currentPlayer, piece.getX(), piece.getY(), x, y, piece.getName())) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private King findKing(Player currentPlayer) {
+        for (Piece piece : currentPlayer.getPieces()) {
+            if (piece instanceof King) {
+                return (King) piece;
+            }
+        }
+        return null;
+    }
+
+
+
+    public boolean isStalemate(Player currentplayer)
     {
         boolean  pourevitererur =false;
         return  pourevitererur;
@@ -92,7 +79,6 @@ public class RulesForTheGame {
         boolean  pourevitererur =false;
         return  pourevitererur;
     }
-
     public boolean isUnderThreat(Piece piece, Piece[][] board) {
         int x = piece.getX();
         int y = piece.getY();
@@ -118,20 +104,6 @@ public class RulesForTheGame {
         return piece != null && !piece.getColor().equals(color) && piece.getName().equals("pawn");
     }
 
-
-    public void undoMove()
-    {
-
-    }
-
-    public  void saveGame(String fileName)
-    {
-
-    }
-    public  void loadGame(String filename)
-    {
-
-    }
     public void movePiece(int startX, int startY, int endX, int endY) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             throw new IllegalArgumentException("Invalid coordinates for move.");
@@ -182,8 +154,6 @@ public class RulesForTheGame {
     }
 
 
-
-
     public static boolean isVerticalPathClear(int startX, int startY, int endX, int endY) {
         int step = (endY > startY) ? 1 : -1;
         Square[][] squares = getSquares();
@@ -200,7 +170,7 @@ public class RulesForTheGame {
         Square[][] squares = getSquares();
         for (int i = startX + step; i != endX; i += step) {
             if (squares[i][startY].getPiece() != null) {
-                return false; // There's a piece in the path
+                return false;
             }
         }
         return  true;
@@ -213,5 +183,4 @@ public class RulesForTheGame {
         board.initializePieces();
         System.out.println("Game reset to the initial state.");
     }
-
 }

@@ -1,17 +1,14 @@
 package Rules;
-
 import chessBoard.Board;
 import chessBoard.Square;
 import ElementsOfTheChess.Piece;
 import Players.Player;
-
 import java.util.Scanner;
-
 import static Rules.RulesForTheGame.isValidCoordinate;
 
 public class ChessGame {
 
-    public static void startingGamePlayer() {
+    public static void startingGamePlayer() throws IllegalAccessException {
         Board board = null;
         try {
             board = new Board();
@@ -55,7 +52,6 @@ public class ChessGame {
     }
 
     private static String determinePieceType(Board board, String sourceSquare) {
-        // Implement logic to determine the pieceType based on the sourceSquare
         Square[][] squares = board.getSquares();
         int x = parseX(sourceSquare);
         int y = parseY(sourceSquare);
@@ -76,7 +72,7 @@ public class ChessGame {
         return Character.getNumericValue(square.charAt(1)) - 1;
     }
 
-    private static boolean makeMove(Board board, int startX, int startY, int endX, int endY) {
+    private static boolean makeMove(Player currentPlayer,Board board ,  int startX, int startY, int endX, int endY) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             return false;
         }
@@ -90,7 +86,7 @@ public class ChessGame {
 
 
         String pieceType = piece.getName().toLowerCase();
-        if (!RulesForTheGame.isValidMove(board, startX, startY, endX, endY, pieceType)) {
+        if (!RulesForTheGame.isValidMove(currentPlayer, startX, startY, endX, endY, pieceType)) {
             return false;
         }
 
@@ -99,6 +95,6 @@ public class ChessGame {
             return false;
         }
 
-
-
+        return false;
+    }
 }
