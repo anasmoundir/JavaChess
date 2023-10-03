@@ -12,7 +12,8 @@ public class King  extends Piece{
     public King(String color) throws IllegalAccessException {
         super(color);
     }
-    public static boolean isValidKingMove(Piece piece, int startX, int startY, int endX, int endY) {
+    public static boolean isValidKingMove(Piece piece, int startX, int startY, int endX, int endY)
+    {
         return false;
     }
     private static boolean isUnderThreat(Player currentPlayer, int newKingX, int newKingY) {
@@ -22,8 +23,9 @@ public class King  extends Piece{
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Piece piece = squares[x][y].getPiece();
+                String  kingString ="king";
                 if (piece != null && piece.getColor().equals(opponentColor)) {
-                    if (RulesForTheGame.isValidMove(x, y, newKingX, newKingY)) {
+                    if (RulesForTheGame.isValidMove(currentPlayer,x, y, newKingX, newKingY,kingString)) {
                         return true;
                     }
                 }

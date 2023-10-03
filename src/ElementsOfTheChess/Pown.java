@@ -12,7 +12,7 @@ public class Pown extends Piece{
             return false;
         }
 
-        if (!piece.getName().equalsIgnoreCase("pawn")) {
+        if (!piece.getName().equalsIgnoreCase("pown")) {
             return false;
         }
 

@@ -35,8 +35,8 @@ public class ChessGame {
             int endY = parseY(destinationSquare);
 
             if (RulesForTheGame.isValidMove(currentPlayer, startX, startY, endX, endY, pieceType)) {
-                if (makeMove(board, startX, startY, endX, endY)) {
-                    currentPlayer.toggleTurn(); // Toggle the player's turn
+                if (makeMove(currentPlayer,board, startX, startY, endX, endY)) {
+                    currentPlayer.toggleTurn();
                 } else {
                     System.out.println("Invalid move. Try again.");
                 }
@@ -79,11 +79,9 @@ public class ChessGame {
 
         Square[][] squares = board.getSquares();
         Piece piece = squares[startX][startY].getPiece();
-
         if (piece == null) {
             return false;
         }
-
 
         String pieceType = piece.getName().toLowerCase();
         if (!RulesForTheGame.isValidMove(currentPlayer, startX, startY, endX, endY, pieceType)) {
@@ -94,7 +92,6 @@ public class ChessGame {
         if (destinationPiece != null && destinationPiece.getColor() == piece.getColor()) {
             return false;
         }
-
         return false;
     }
 }

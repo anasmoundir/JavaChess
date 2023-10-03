@@ -1,6 +1,4 @@
 package Rules;
-
-
 import ElementsOfTheChess.*;
 import Players.Player;
 import chessBoard.Board;
@@ -27,7 +25,7 @@ public class RulesForTheGame {
         int kingX = king.getX();
         int kingY = king.getY();
         Square[][] squares = getSquares();
-        String opponentColor = (currentPlayer.getColor() == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.toString();
+        String opponentColor = (currentPlayer.getColor() == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.name() : Player.CouleurPlayer.white.name();
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Piece piece = squares[x][y].getPiece();
@@ -128,7 +126,6 @@ public class RulesForTheGame {
             throw new IllegalArgumentException("Invalid move.");
         }
     }
-
     public static   boolean isValidMove(Player player, int startX, int startY, int endX, int endY, String pieceType) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             return false;

@@ -20,6 +20,7 @@ public class Player {
         initializePieces();
     }
 
+
     public void toggleTurn() {
         isTurn = !isTurn;
     }
@@ -32,6 +33,7 @@ public class Player {
     public CouleurPlayer getColor() {
         return color;
     }
+
 
 
     private void initializePieces() throws IllegalAccessException {
@@ -79,6 +81,13 @@ public class Player {
     public List<Piece> getPieces() {
         return pieces;
     }
-
+    @Override
+    public String toString() {
+        return "Player{" +
+                "color=" + color +
+                ", isTurn=" + isTurn +
+                ", pieces=" + pieces +
+                '}';
+    }
 }
 

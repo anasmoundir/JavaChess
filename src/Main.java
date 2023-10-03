@@ -1,8 +1,10 @@
+import java.util.Scanner;
 import Players.Player;
 import Rules.RulesForTheGame;
 import chessBoard.Board;
 
 public class Main {
+
     public static void main(String[] args) throws IllegalAccessException {
         boolean gameOver = false;
         Player playerBlack = new Player(Player.CouleurPlayer.black);
@@ -13,28 +15,31 @@ public class Main {
         Board board = new Board();
         RulesForTheGame rules = new RulesForTheGame(board);
 
+        Scanner scanner = new Scanner(System.in);
+
         while (!gameOver) {
-            String move = currentPlayer.getUserInput();
+            System.out.print(currentPlayer.getColor() + " player, enter your move (e.g., 'e2 e4'): ");
+            String move = scanner.nextLine();
 
             String[] moveParts = move.split(" ");
             if (moveParts.length == 2) {
                 String startCoordinate = moveParts[0];
                 String endCoordinate = moveParts[1];
+                System.out.println(startCoordinate);
+                System.out.println(endCoordinate);
 
                 char startX = startCoordinate.charAt(0);
-                int startY = Integer.parseInt(startCoordinate.charAt(1) + "");
+                int startY = Integer.parseInt(startCoordinate.substring(1));
                 char endX = endCoordinate.charAt(0);
-                int endY = Integer.parseInt(endCoordinate.charAt(1) + "");
-
-                String pieceType = "pawn";
+                int endY = Integer.parseInt(endCoordinate.substring(1));
+                // this logic must implemented as i want to manipulate the code
+                String pieceType = "pown";
 
                 if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceType)) {
-
-                    if (rules.isCheckmate(currentPlayer)|| rules.isStalemate(currentPlayer)) {
+                    if (rules.isCheckmate(currentPlayer) || rules.isStalemate(currentPlayer)) {
                         gameOver = true;
                         System.out.println("Game Over!");
                     } else {
-
                         currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
                     }
                 } else {
@@ -44,5 +49,7 @@ public class Main {
                 System.out.println("Invalid move format. Please enter in the format 'e2 e4'.");
             }
         }
+
+        scanner.close();
     }
 }
