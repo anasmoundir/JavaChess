@@ -4,6 +4,7 @@ import ElementsOfTheChess.*;
 
 import java.util.Optional;
 
+import static Rules.RulesForTheGame.isValidCoordinate;
 import static java.awt.Color.white;
 
 public class Board {
@@ -20,7 +21,6 @@ public class Board {
            chargingThesquares();
            initializePieces();
            displayTheSquare();
-
      }
 
 
@@ -45,11 +45,9 @@ public class Board {
                     Piece piece = squares[x][y].getPiece();
                     if (piece != null) {
                          System.out.print(squares[x][y].getPiece().getName()+ "  ");
-//                         System.out.print((char)(squares[x][y].getX()+65));
 
                     } else {
                          System.out.print(squares[x][y].getColor() + "  ");
-                             System.out.print(squares[x][y].getX());
                     }
                }
           }
@@ -86,6 +84,13 @@ public class Board {
           }
 
 
-}
 
+        }
+     public String getPieceAt(int startX, int startY) {
+//          if (!isValidCoordinate(startX, startY)) {
+//               return null;
+//          }
+//          return squares[startY][startX].getPiece();
+          return  squares[startX][startY].getPiece().getName();
+     }
 }
