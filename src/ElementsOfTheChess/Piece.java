@@ -5,7 +5,7 @@ import chessBoard.Board;
 public class Piece {
     private String name;
     private String color;
-    private boolean stillOnBoard;
+    private boolean stillOnBoard = true;
     private int x;
     private int y;
 
@@ -88,5 +88,14 @@ public class Piece {
         this.color = color;
     }
 
-
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", stillOnBoard=" + stillOnBoard +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

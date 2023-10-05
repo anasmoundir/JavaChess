@@ -3,6 +3,9 @@ package Players;
 import ElementsOfTheChess.*;
 
 import java.util.*;
+
+import static chessBoard.Board.squares;
+
 public class Player {
     private CouleurPlayer color;
     private boolean isTurn;

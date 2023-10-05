@@ -28,37 +28,44 @@ public class Main {
                 if (moveParts.length == 2) {
                     String startCoordinate = moveParts[0];
                     String endCoordinate = moveParts[1];
-//                    System.out.println(startCoordinate);
-//                    System.out.println(endCoordinate);
+
 
                     char castX = startCoordinate.charAt(0);
                     int startX =castX -'a';
-                    System.out.println(startX);
+
                     int startY = Integer.parseInt(startCoordinate.substring(1));
-                    System.out.println(startY);
+                    startY = 8 - startY ;
+
                     char Xcast = endCoordinate.charAt(0);
-                    int endX = castX - 'a';
-                    System.out.println(endX);
+                    int endX = Xcast - 'a';
+
                     int endY = Integer.parseInt(endCoordinate.substring(1));
-                    System.out.println(endY);
-                    String piece = board.getPieceAt(startX, startY);
-                    System.out.println(piece);
+                    Piece piece =board.getPieceAt(startX,startY);
+                    String pieceName = piece.getName();
+                     System.out.println(piece);
 
 
+                    if (!pieceName.isEmpty() && rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece)) {
+                        // Custom check for checkmate (replace this logic)
+                        boolean isCheckmate = false; // Replace with your custom check
 
-                    if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, piece)) {
-                        if (rules.isCheckmate(currentPlayer) || rules.isStalemate(currentPlayer)) {
+                        // Custom check for stalemate (replace this logic)
+                        boolean isStalemate = false; // Replace with your custom check
+
+                        if (isCheckmate) {
                             gameOver = true;
-                            System.out.println("Game Over!");
+                            System.out.println("Checkmate! Game Over!");
+                        } else if (isStalemate) {
+                            gameOver = true;
+                            System.out.println("Stalemate! Game Over!");
                         } else {
                             currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
                         }
                     } else {
                         System.out.println("Invalid move. Please try again.");
                     }
+
                     board.displayTheSquare();
-                } else {
-                    System.out.println("Invalid move format. Please enter in the format 'e2 e4'.");
                 }
         }
 

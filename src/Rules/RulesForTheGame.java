@@ -20,41 +20,41 @@ public class RulesForTheGame {
         return  varriable;
     }
 
-    public boolean isCheck(Player currentPlayer) {
-        King king = findKing(currentPlayer);
-        int kingX = king.getX();
-        int kingY = king.getY();
-        Square[][] squares = getSquares();
-        String opponentColor = (currentPlayer.getColor() == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.name() : Player.CouleurPlayer.white.name();
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                Piece piece = squares[x][y].getPiece();
-                if (piece != null && piece.getColor().equals(opponentColor)) {
-                    if (isValidMove(currentPlayer, x, y, kingX, kingY, piece.getName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+//    public boolean isCheck(Player currentPlayer) {
+//        King king = findKing(currentPlayer);
+//        int kingX = king.getX();
+//        int kingY = king.getY();
+//        Square[][] squares = getSquares();
+//        String opponentColor = (currentPlayer.getColor() == Player.CouleurPlayer.white) ? Player.CouleurPlayer.black.name() : Player.CouleurPlayer.white.name();
+//        for (int x = 0; x < 8; x++) {
+//            for (int y = 0; y < 8; y++) {
+//                Piece piece = squares[x][y].getPiece();
+//                if (piece != null && piece.getColor().equals(opponentColor)) {
+//                    if (isValidMove(currentPlayer, x, y, kingX, kingY, piece.getName()),piece) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
-    public boolean isCheckmate(Player currentPlayer) {
-        King king = findKing(currentPlayer);
-        if (isCheck(currentPlayer)) {
-            for (Piece piece : currentPlayer.getPieces()) {
-                for (int x = 0; x < 8; x++) {
-                    for (int y = 0; y < 8; y++) {
-                        if (isValidMove(currentPlayer, piece.getX(), piece.getY(), x, y, piece.getName())) {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
+//    public boolean isCheckmate(Player currentPlayer) {
+//        King king = findKing(currentPlayer);
+//        if (isCheck(currentPlayer)) {
+//            for (Piece piece : currentPlayer.getPieces()) {
+//                for (int x = 0; x < 8; x++) {
+//                    for (int y = 0; y < 8; y++) {
+//                        if (isValidMove(currentPlayer, piece.getX(), piece.getY(), x, y, piece.getName())) {
+//                            return false;
+//                        }
+//                    }
+//                }
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
 
     private King findKing(Player currentPlayer) {
         for (Piece piece : currentPlayer.getPieces()) {
@@ -91,8 +91,6 @@ public class RulesForTheGame {
                 return true;
             }
         }
-
-
         return false;
     }
 
@@ -113,28 +111,28 @@ public class RulesForTheGame {
         if (piece == null) {
             throw new IllegalArgumentException("No piece at the starting square.");
         }
-
         squares[startX][startY].removePiece();
         squares[endX][endY].setPiece(piece);
         piece.setX(endX);
         piece.setY(endY);
     }
-    public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType) {
-        if (isValidMove(player, startX, startY, endX, endY, pieceType)) {
+    public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
+        if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {
             movePiece(startX, startY, endX, endY);
         } else {
             throw new IllegalArgumentException("Invalid move.");
         }
     }
-    public static   boolean isValidMove(Player player, int startX, int startY, int endX, int endY, String pieceType) {
+    public static   boolean isValidMove(Player player, int startX, int startY, int endX, int endY, String pieceType, Piece piece) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             return false;
         }
-        Square[][] squares = getSquares();
-        Piece piece = squares[startX][startY].getPiece();
+
+
+        System.out.println(piece);
          switch (pieceType.toLowerCase()) {
             case "pown":
-                return Pown.isValidPownMove(piece, startX, startY, endX, endY);
+                return Pown.isValidPownMove(piece,endX,endY);
             case "rook":
                 return Rook.isValidRookMove(piece, startX, startY, endX, endY);
             case "knight":
