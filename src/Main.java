@@ -1,9 +1,9 @@
-import java.util.Scanner;
-
 import ElementsOfTheChess.Piece;
 import Players.Player;
 import Rules.RulesForTheGame;
 import chessBoard.Board;
+
+import java.util.Scanner;
 
 public class Main {
 
@@ -16,41 +16,40 @@ public class Main {
 
         Board board = new Board();
         RulesForTheGame rules = new RulesForTheGame(board);
-
         Scanner scanner = new Scanner(System.in);
 
+        while (!gameOver) {
+            System.out.print("\nPlayer, enter your move (e.g., 'e2 e4'): ");
+            String move = scanner.nextLine();
 
-            while (!gameOver) {
-                System.out.print("\n player, enter your move (e.g., 'e2 e4'): ");
-                String move = scanner.nextLine();
+            String[] moveParts = move.split(" ");
+            if (moveParts.length == 2) {
+                String startCoordinate = moveParts[0];
+                String endCoordinate = moveParts[1];
 
-                String[] moveParts = move.split(" ");
-                if (moveParts.length == 2) {
-                    String startCoordinate = moveParts[0];
-                    String endCoordinate = moveParts[1];
+                int startX = startCoordinate.charAt(0) - 'a';
+                int startY = Integer.parseInt(startCoordinate.substring(1)) - 1;
 
-
-                    char castX = startCoordinate.charAt(0);
-                    int startX =castX -'a';
-
-                    int startY = Integer.parseInt(startCoordinate.substring(1));
-                    startY = 8 - startY ;
-
-                    char Xcast = endCoordinate.charAt(0);
-                    int endX = Xcast - 'a';
-
-                    int endY = Integer.parseInt(endCoordinate.substring(1));
-                    Piece piece =board.getPieceAt(startX,startY);
+                int endX = endCoordinate.charAt(0) - 'a';
+                int endY = Integer.parseInt(endCoordinate.substring(1)) - 1;
+                System.out.println("StartX: " + startX);
+                System.out.println("StartY: " + startY);
+                System.out.println("EndX: " + endX);
+                System.out.println("EndY: " + endY);
+                Piece piece = board.getPieceAt(startX, startY);
+                if (piece != null) {
                     String pieceName = piece.getName();
-                     System.out.println(piece);
+                    System.out.println("Piece: " + pieceName);
+                    System.out.println("StartX: " + startX);
+                    System.out.println("StartY: " + startY);
+                    System.out.println("EndX: " + endX);
+                    System.out.println("EndY: " + endY);
 
-
+                    rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
                     if (!pieceName.isEmpty() && rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece)) {
-                        // Custom check for checkmate (replace this logic)
-                        boolean isCheckmate = false; // Replace with your custom check
 
-                        // Custom check for stalemate (replace this logic)
-                        boolean isStalemate = false; // Replace with your custom check
+                        boolean isCheckmate = false;
+                        boolean isStalemate = false;
 
                         if (isCheckmate) {
                             gameOver = true;
@@ -64,9 +63,11 @@ public class Main {
                     } else {
                         System.out.println("Invalid move. Please try again.");
                     }
-
-                    board.displayTheSquare();
+                } else {
+                    System.out.println("This square is empty. You can't move in it.");
                 }
+                board.displayTheSquare();
+            }
         }
 
         scanner.close();

@@ -5,6 +5,7 @@ import chessBoard.Board;
 import chessBoard.Square;
 
 import static chessBoard.Board.getSquares;
+import static chessBoard.Board.squares;
 
 public class RulesForTheGame {
 
@@ -100,25 +101,25 @@ public class RulesForTheGame {
         return piece != null && !piece.getColor().equals(color) && piece.getName().equals("pawn");
     }
 
-    public void movePiece(int startX, int startY, int endX, int endY) {
+    public void movePiece(int startX, int startY, int endX, int endY,Piece piece) {
         if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
             throw new IllegalArgumentException("Invalid coordinates for move.");
         }
-
-        Square[][] squares = getSquares();
-        Piece piece = squares[startX][startY].getPiece();
-
+        Square square= squares[piece.getX()][piece.getY()];
+//        Square[][] squares = getSquares();
+//        Piece piece = squares[startX][startY].getPiece();
+        System.out.println("the piece is "+ piece);
         if (piece == null) {
             throw new IllegalArgumentException("No piece at the starting square.");
         }
-        squares[startX][startY].removePiece();
+        square.removePiece();
         squares[endX][endY].setPiece(piece);
         piece.setX(endX);
         piece.setY(endY);
     }
     public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
         if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {
-            movePiece(startX, startY, endX, endY);
+            movePiece(startX, startY, endX, endY,piece);
         } else {
             throw new IllegalArgumentException("Invalid move.");
         }
@@ -128,8 +129,7 @@ public class RulesForTheGame {
             return false;
         }
 
-
-        System.out.println(piece);
+        System.out.println("valide cordonating");
          switch (pieceType.toLowerCase()) {
             case "pown":
                 return Pown.isValidPownMove(piece,endX,endY);

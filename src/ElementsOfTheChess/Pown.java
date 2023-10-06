@@ -11,16 +11,16 @@ public class Pown extends Piece {
     }
 
     public static boolean isValidPownMove(Piece piece, int endX, int endY) {
-        //        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-        //            return false;
-        //        }
+        if (!isValidCoordinate(endX, endY)) {
+            return false;
+        }
 
-        int startX = piece.getX();
-        int startY = piece.getY();
+        int  startY= piece.getX();
+        int startX = piece.getY();
 
-        Square startSquare = squares[startX][startY];
+        Square startSquare = squares[startY][startX];
         Piece startPiece = startSquare.getPiece();
-//        System.out.println("here"+piece);
+
         if (!startPiece.getName().equalsIgnoreCase("pown")) {
             return false;
         }
@@ -31,31 +31,29 @@ public class Pown extends Piece {
         int colDiff = Math.abs(endY - startY);
 
         if (pawnColor.equalsIgnoreCase("white")) {
-            if (rowDiff == -1 && colDiff == 0) {
+            if (rowDiff == 0 && colDiff == 1 || colDiff == 2) {
+                return true;
+            }
+            if (startX == 1 && rowDiff == 2 && colDiff == 0) {
+                return true;
+            }
+            if (rowDiff == 1 && colDiff == 1) {
                 return true;
             }
         } else if (pawnColor.equalsIgnoreCase("black")) {
-            if (rowDiff == 1 && colDiff == 0) {
+            if (rowDiff == -1 && colDiff == 0) {
                 return true;
             }
-        }
-        if (pawnColor.equalsIgnoreCase("white") && startX == 6) {
-            if (rowDiff == -2 && colDiff == 0) {
+            if (startX == 6 && rowDiff == -2 && colDiff == 0) {
                 return true;
             }
-        } else if (pawnColor.equalsIgnoreCase("black") && startX == 1) {
-            if (rowDiff == 2 && colDiff == 0) {
-                return true;
+            if (rowDiff == -1 && colDiff == 1) {
+                return true;  // Pawn captures diagonally
             }
         }
 
-        if (colDiff == 1 && (pawnColor.equalsIgnoreCase("white") && rowDiff == -1 || pawnColor.equalsIgnoreCase("black") && rowDiff == 1)) {
-            return true;
-        }
         return false;
     }
-
     public void promotePawn(Pown pown, Piece newPiece) {
-
     }
 }
