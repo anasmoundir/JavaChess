@@ -4,14 +4,17 @@ import Players.Player;
 import chessBoard.Board;
 import chessBoard.Square;
 
+import javax.swing.*;
+
 import static chessBoard.Board.getSquares;
 import static chessBoard.Board.squares;
 
 public class RulesForTheGame {
 
-    private   Board board;
+    private  static Board board;
     public  RulesForTheGame(Board board)
     {
+
 
     }
 
@@ -101,21 +104,17 @@ public class RulesForTheGame {
         return piece != null && !piece.getColor().equals(color) && piece.getName().equals("pawn");
     }
 
-    public void movePiece(int startX, int startY, int endX, int endY,Piece piece) {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            throw new IllegalArgumentException("Invalid coordinates for move.");
-        }
-        Square square= squares[piece.getX()][piece.getY()];
-//        Square[][] squares = getSquares();
-//        Piece piece = squares[startX][startY].getPiece();
-        System.out.println("the piece is "+ piece);
+    public void movePiece(int startX, int startY, int endX, int endY, Piece piece) {
+
         if (piece == null) {
             throw new IllegalArgumentException("No piece at the starting square.");
         }
-        square.removePiece();
-        squares[endX][endY].setPiece(piece);
-        piece.setX(endX);
-        piece.setY(endY);
+        board.getPieceAt(0,3);
+
+        squares[endY][endX].setPiece(piece);
+       // squares[4][3].setPiece(piece);
+        System.out.println(squares[endX][endY].getColor());
+        squares[startY][startX].setPiece(null);
     }
     public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
         if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {

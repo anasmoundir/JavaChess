@@ -27,11 +27,11 @@ public class Main {
                 String startCoordinate = moveParts[0];
                 String endCoordinate = moveParts[1];
 
-                int startX = startCoordinate.charAt(0) - 'a';
-                int startY = Integer.parseInt(startCoordinate.substring(1)) - 1;
+                int startY = startCoordinate.charAt(0) - 'a';
+                int startX = Integer.parseInt(startCoordinate.substring(1) ) - 1;
 
-                int endX = endCoordinate.charAt(0) - 'a';
-                int endY = Integer.parseInt(endCoordinate.substring(1)) - 1;
+                int  endY = endCoordinate.charAt(0) - 'a';
+                int  endX= Integer.parseInt(endCoordinate.substring(1)) - 1;
                 System.out.println("StartX: " + startX);
                 System.out.println("StartY: " + startY);
                 System.out.println("EndX: " + endX);
@@ -46,8 +46,8 @@ public class Main {
                     System.out.println("EndY: " + endY);
 
                     rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
+                    board.displayTheSquare();
                     if (!pieceName.isEmpty() && rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece)) {
-
                         boolean isCheckmate = false;
                         boolean isStalemate = false;
 
@@ -66,8 +66,9 @@ public class Main {
                 } else {
                     System.out.println("This square is empty. You can't move in it.");
                 }
-                board.displayTheSquare();
+
             }
+
         }
 
         scanner.close();
