@@ -18,19 +18,17 @@ public class RulesForTheGame {
 
     }
 
-    public boolean isPathClear(Piece piece,int startX,int startY, int endX, int endY)
-    {
-        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
-            return false;
-        }
-
-        int dx = Integer.compare(endX, startX);
-        int dy = Integer.compare(endY, startY);
+    public boolean isPathClear(Piece piece, int endX, int endY, Square[][] squares) {
+        int startX = piece.getX();
+        int startY = piece.getY();
+        int dx = Integer.compare(endX, piece.getX());
+        int dy = Integer.compare(endY, piece.getY());
         int x = startX + dx;
         int y = startY + dy;
 
         while (x != endX || y != endY) {
-            if (board.getSquares()[x][y].getPiece() != null) {
+            if (squares[x][y].getPiece() != null) {
+                System.out.println("Path not clear at (" + x + ", " + y + ")");
                 return false;
             }
             x += dx;
@@ -125,15 +123,26 @@ public class RulesForTheGame {
         if (piece == null) {
             throw new IllegalArgumentException("No piece at the starting square.");
         }
+        piece.setY(endY);
+        piece.setX(endX);
 
         squares[endX][endY].setPiece(piece);
+
         System.out.println(squares[endX][endY].getColor());
         squares[startX][startY].setPiece(null);
     }
-    public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
-        if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {
-            if(isPathClear(piece,startX,startY,endX,endY))
-            movePiece(startX, startY, endX, endY,piece);
+
+    public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType, Piece piece) {
+        if(piece.getName() == "knight" && isValidMove(player, startX, startY, endX, endY, pieceType, piece))
+        {
+            movePiece(startX, startY, endX, endY, piece);
+        }
+        else if (isValidMove(player, startX, startY, endX, endY, pieceType, piece)) {
+            if (isPathClear(piece, endX, endY, board.getSquares())) {
+                movePiece(startX, startY, endX, endY, piece);
+            } else {
+                throw new IllegalArgumentException("Invalid move. The path is not clear.");
+            }
         } else {
             throw new IllegalArgumentException("Invalid move.");
         }

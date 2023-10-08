@@ -51,18 +51,7 @@ public class ChessGame {
         return false;
     }
 
-    private static String determinePieceType(Board board, String sourceSquare) {
-        Square[][] squares = board.getSquares();
-        int x = parseX(sourceSquare);
-        int y = parseY(sourceSquare);
-        Piece piece = squares[x][y].getPiece();
 
-        if (piece != null) {
-            return piece.getName().toLowerCase();
-        } else {
-            return "";
-        }
-    }
 
     private static int parseX(String square) {
         return square.charAt(0) - 'a';

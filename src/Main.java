@@ -7,8 +7,6 @@ import chessBoard.Board;
 import java.util.Scanner;
 
 public class Main {
-
-
     public static void main(String[] args) throws IllegalAccessException {
         boolean gameOver = false;
         Player playerBlack = new Player(Player.CouleurPlayer.black);
@@ -35,50 +33,53 @@ public class Main {
                 String startCoordinate = moveParts[0];
                 String endCoordinate = moveParts[1];
 
-                int startY = startCoordinate.charAt(0) - 'a';
-                int startX = Integer.parseInt(startCoordinate.substring(1)) - 1;
+                if (isValidCoordinate(startCoordinate) && isValidCoordinate(endCoordinate)) {
+                    int startY = startCoordinate.charAt(0) - 'a';
+                    int startX = Integer.parseInt(startCoordinate.substring(1)) - 1;
 
-                int endY = endCoordinate.charAt(0) - 'a';
-                int endX = Integer.parseInt(endCoordinate.substring(1)) - 1;
+                    int endY = endCoordinate.charAt(0) - 'a';
+                    int endX = Integer.parseInt(endCoordinate.substring(1)) - 1;
 
-                Piece piece = board.getPieceAt(startX, startY);
-                if (piece != null) {
-                    String pieceName = piece.getName();
+                    Piece piece = board.getPieceAt(startX, startY);
+                    if (piece != null) {
+                        String pieceName = piece.getName();
 
-                    if ("knight".equalsIgnoreCase(pieceName) &&
-                            Knight.isValidKnightMove(piece, endX, endY)) {
-                        rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
-                        boolean isCheckmate = false;
-                        boolean isStalemate = false;
-                        if (isCheckmate) {
-                            gameOver = true;
-                            System.out.println("Checkmate! Game Over!");
-                        } else if (isStalemate) {
-                            gameOver = true;
-                            System.out.println("Stalemate! Game Over!");
+                        if ("knight".equalsIgnoreCase(pieceName) &&
+                                Knight.isValidKnightMove(piece, endX, endY)) {
+                            rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
+                            boolean isCheckmate = false;
+                            boolean isStalemate = false;
+                            if (isCheckmate) {
+                                gameOver = true;
+                                System.out.println("Checkmate! Game Over!");
+                            } else if (isStalemate) {
+                                gameOver = true;
+                                System.out.println("Stalemate! Game Over!");
+                            } else {
+                                currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
+                            }
+                        } else if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece) &&
+                                rules.isPathClear(piece, endX, endY, board.getSquares())) {
+                            rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
+                            boolean isCheckmate = false;
+                            boolean isStalemate = false;
+                            if (isCheckmate) {
+                                gameOver = true;
+                                System.out.println("Checkmate! Game Over!");
+                            } else if (isStalemate) {
+                                gameOver = true;
+                                System.out.println("Stalemate! Game Over!");
+                            } else {
+                                currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
+                            }
                         } else {
-                            currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
-                        }
-                    } else if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece) &&
-                            rules.isPathClear(piece,startX, startY, endX, endY)) {
-                        rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
-                        boolean isCheckmate = false;
-                        boolean isStalemate = false;
-                        if (isCheckmate) {
-                            gameOver = true;
-                            System.out.println("Checkmate! Game Over!");
-                        } else if (isStalemate) {
-                            gameOver = true;
-                            System.out.println("Stalemate! Game Over!");
-                        } else {
-                            currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
+                            System.out.println("Invalid move. Please try again.");
                         }
                     } else {
-                        System.out.println("Invalid move. Please try again.");
+                        System.out.println("This square is empty. You can't move in it.");
                     }
-                }
-                else {
-                    System.out.println("This square is empty. You can't move in it.");
+                } else {
+                    System.out.println("Invalid input format. Please enter valid coordinates.");
                 }
             } else {
                 System.out.println("Invalid input format. Please enter your move in the format 'start end'.");
@@ -86,5 +87,9 @@ public class Main {
         }
 
         scanner.close();
+    }
+
+    private static boolean isValidCoordinate(String coordinate) {
+        return coordinate.matches("[a-h][1-8]");
     }
 }

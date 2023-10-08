@@ -22,4 +22,5 @@ public class Knight extends Piece {
 
         return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
     }
+
 }
