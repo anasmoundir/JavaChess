@@ -109,12 +109,11 @@ public class RulesForTheGame {
         if (piece == null) {
             throw new IllegalArgumentException("No piece at the starting square.");
         }
-        board.getPieceAt(0,3);
 
-        squares[endY][endX].setPiece(piece);
+        squares[endX][endY].setPiece(piece);
        // squares[4][3].setPiece(piece);
         System.out.println(squares[endX][endY].getColor());
-        squares[startY][startX].setPiece(null);
+        squares[startX][startY].setPiece(null);
     }
     public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
         if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {

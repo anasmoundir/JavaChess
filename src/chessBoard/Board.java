@@ -26,8 +26,8 @@
 
 
                public static void chargingThesquares() {
-                    String emptyWhiteSquareIcon = "□";
-                    String emptyBlackSquareIcon = "■";
+                    String emptyWhiteSquareIcon = "□  ";
+                    String emptyBlackSquareIcon = "■  ";
 
                     for (int row = 0; row < 8; row++) {
                          for (int col = 0; col < 8; col++) {
@@ -48,7 +48,7 @@
                                    String pieceIcon = getPieceIcon(pieceName, piece.getColor());
                                    System.out.print(pieceIcon + "  ");
                               } else {
-                                   System.out.print(squares[row][col].getColor() + "  " + "row:  "+row +"   " + "col: "+col +"  ");
+                                   System.out.print(squares[row][col].getColor() );
                               }
                          }
                          System.out.println((row + 1));
