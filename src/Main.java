@@ -1,3 +1,4 @@
+import ElementsOfTheChess.Knight;
 import ElementsOfTheChess.Piece;
 import Players.Player;
 import Rules.RulesForTheGame;
@@ -6,6 +7,7 @@ import chessBoard.Board;
 import java.util.Scanner;
 
 public class Main {
+
 
     public static void main(String[] args) throws IllegalAccessException {
         boolean gameOver = false;
@@ -19,8 +21,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (!gameOver) {
+            board.displayTheSquare();
+
             System.out.print("\nPlayer, enter your move (e.g., 'e2 e4'): ");
-            String move = scanner.nextLine();
+            String move = scanner.nextLine().trim();
+
+            if (move.isEmpty()) {
+                continue;
+            }
 
             String[] moveParts = move.split(" ");
             if (moveParts.length == 2) {
@@ -28,29 +36,34 @@ public class Main {
                 String endCoordinate = moveParts[1];
 
                 int startY = startCoordinate.charAt(0) - 'a';
-                int startX = Integer.parseInt(startCoordinate.substring(1) ) - 1;
+                int startX = Integer.parseInt(startCoordinate.substring(1)) - 1;
 
-                int  endY = endCoordinate.charAt(0) - 'a';
-                int  endX= Integer.parseInt(endCoordinate.substring(1)) - 1;
-                System.out.println("StartX: " + startX);
-                System.out.println("StartY: " + startY);
-                System.out.println("EndX: " + endX);
-                System.out.println("EndY: " + endY);
+                int endY = endCoordinate.charAt(0) - 'a';
+                int endX = Integer.parseInt(endCoordinate.substring(1)) - 1;
+
                 Piece piece = board.getPieceAt(startX, startY);
                 if (piece != null) {
                     String pieceName = piece.getName();
-                    System.out.println("Piece: " + pieceName);
-                    System.out.println("StartX: " + startX);
-                    System.out.println("StartY: " + startY);
-                    System.out.println("EndX: " + endX);
-                    System.out.println("EndY: " + endY);
 
-                    rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
-                    board.displayTheSquare();
-                    if (!pieceName.isEmpty() && rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece)) {
+                    if ("knight".equalsIgnoreCase(pieceName) &&
+                            Knight.isValidKnightMove(piece, endX, endY)) {
+                        rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
                         boolean isCheckmate = false;
                         boolean isStalemate = false;
-
+                        if (isCheckmate) {
+                            gameOver = true;
+                            System.out.println("Checkmate! Game Over!");
+                        } else if (isStalemate) {
+                            gameOver = true;
+                            System.out.println("Stalemate! Game Over!");
+                        } else {
+                            currentPlayer = (currentPlayer == playerWhite) ? playerBlack : playerWhite;
+                        }
+                    } else if (rules.isValidMove(currentPlayer, startX, startY, endX, endY, pieceName, piece) &&
+                            rules.isPathClear(piece,startX, startY, endX, endY)) {
+                        rules.makeMove(currentPlayer, startX, startY, endX, endY, pieceName, piece);
+                        boolean isCheckmate = false;
+                        boolean isStalemate = false;
                         if (isCheckmate) {
                             gameOver = true;
                             System.out.println("Checkmate! Game Over!");
@@ -63,12 +76,13 @@ public class Main {
                     } else {
                         System.out.println("Invalid move. Please try again.");
                     }
-                } else {
+                }
+                else {
                     System.out.println("This square is empty. You can't move in it.");
                 }
-
+            } else {
+                System.out.println("Invalid input format. Please enter your move in the format 'start end'.");
             }
-
         }
 
         scanner.close();

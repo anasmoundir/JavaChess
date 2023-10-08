@@ -18,10 +18,26 @@ public class RulesForTheGame {
 
     }
 
-    public boolean isPathClear(int startX,int startY, int endX, int endY)
+    public boolean isPathClear(Piece piece,int startX,int startY, int endX, int endY)
     {
-        boolean varriable =false;
-        return  varriable;
+        if (!isValidCoordinate(startX, startY) || !isValidCoordinate(endX, endY)) {
+            return false;
+        }
+
+        int dx = Integer.compare(endX, startX);
+        int dy = Integer.compare(endY, startY);
+        int x = startX + dx;
+        int y = startY + dy;
+
+        while (x != endX || y != endY) {
+            if (board.getSquares()[x][y].getPiece() != null) {
+                return false;
+            }
+            x += dx;
+            y += dy;
+        }
+
+        return true;
     }
 
 //    public boolean isCheck(Player currentPlayer) {
@@ -111,12 +127,12 @@ public class RulesForTheGame {
         }
 
         squares[endX][endY].setPiece(piece);
-       // squares[4][3].setPiece(piece);
         System.out.println(squares[endX][endY].getColor());
         squares[startX][startY].setPiece(null);
     }
     public void makeMove(Player player, int startX, int startY, int endX, int endY, String pieceType,Piece piece) {
         if (isValidMove(player, startX, startY, endX, endY, pieceType,piece)) {
+            if(isPathClear(piece,startX,startY,endX,endY))
             movePiece(startX, startY, endX, endY,piece);
         } else {
             throw new IllegalArgumentException("Invalid move.");
@@ -134,13 +150,13 @@ public class RulesForTheGame {
             case "rook":
                 return Rook.isValidRookMove(piece, startX, startY, endX, endY);
             case "knight":
-                return Knight.isValidKnightMove(piece, startX, startY, endX, endY);
+                return Knight.isValidKnightMove(piece, endX, endY);
             case "bishop":
                 return Bishop.isValidBishopMove(piece, startX, startY, endX, endY);
             case "queen":
-                return Queen.isValidQueenMove(piece, startX, startY, endX, endY);
+                return Queen.isValidQueenMove(piece, endX, endY);
             case "king":
-                return King.isValidKingMove(piece, startX, startY, endX, endY);
+                return King.isValidKingMove(piece, endX, endY);
             default:
                 return false;
         }
