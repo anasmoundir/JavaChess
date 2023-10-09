@@ -11,7 +11,7 @@ import static chessBoard.Board.squares;
 
 public class RulesForTheGame {
 
-    private  static Board board;
+    public static Board board;
     public  RulesForTheGame(Board board)
     {
 

@@ -1,7 +1,9 @@
 package ElementsOfTheChess;
 
+import Players.Player;
 import chessBoard.Square;
 
+import static Rules.RulesForTheGame.board;
 import static Rules.RulesForTheGame.isValidCoordinate;
 import static chessBoard.Board.getSquares;
 

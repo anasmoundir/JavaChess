@@ -1,7 +1,9 @@
 package ElementsOfTheChess;
 
+import Players.Player;
 import chessBoard.Square;
 
+import static Rules.RulesForTheGame.board;
 import static Rules.RulesForTheGame.isValidCoordinate;
 import static chessBoard.Board.squares;
 
@@ -56,6 +58,27 @@ public class Pown extends Piece {
                 return true;
             }
         }
+        return false;
+    }
+    public boolean capturePawn(Player player, int startX, int startY, int endX, int endY, Piece piece) {
+        if (!piece.getName().equalsIgnoreCase("pawn")) {
+            return false;
+        }
+
+        String pawnColor = piece.getColor();
+        int rowDiff = endX - startX;
+        int colDiff = Math.abs(endY - startY);
+
+        int captureDirection = (pawnColor.equalsIgnoreCase("black")) ? -1 : 1;
+
+        if ((rowDiff == captureDirection && colDiff == 1) || (rowDiff == captureDirection && colDiff == 0)) {
+            Piece capturedPiece = board.getPieceAt(endX, endY);
+            if (capturedPiece != null) {
+                capturedPiece.removeFromBoard();
+            }
+            return true;
+        }
+
         return false;
     }
     public void promotePawn(Pown pown, Piece newPiece) {

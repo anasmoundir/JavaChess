@@ -4,6 +4,7 @@ import Players.Player;
 import Rules.RulesForTheGame;
 import chessBoard.Square;
 
+import static Rules.RulesForTheGame.board;
 import static Rules.RulesForTheGame.isValidCoordinate;
 import static chessBoard.Board.getSquares;
 
@@ -49,6 +50,14 @@ public class King  extends Piece{
 
         return false;
     }
+    public boolean isValidCapture(Piece piece, int endX, int endY, Square[][] squares) {
+        if (squares[endX][endY].getPiece() != null &&
+                !piece.getColor().equals(squares[endX][endY].getPiece().getColor())) {
+                 squares[endX][endY].getPiece().removeFromBoard();
+            return true;
+        }
+        return false;
+    }
     public boolean canEscapeCheck(Player currentPlayer, King king) {
         int kingX = king.getX();
         int kingY = king.getY();
@@ -71,6 +80,24 @@ public class King  extends Piece{
                 }
             }
         }
+        return false;
+    }
+    public boolean captureWithKing(Player player, int startX, int startY, int endX, int endY, Piece piece) {
+        if (!piece.getName().equalsIgnoreCase("king")) {
+            return false;
+        }
+
+        int rowDiff = Math.abs(endX - startX);
+        int colDiff = Math.abs(endY - startY);
+
+        if (rowDiff <= 1 && colDiff <= 1) {
+            Piece capturedPiece = board.getPieceAt(endX, endY);
+            if (capturedPiece != null) {
+                capturedPiece.removeFromBoard();
+            }
+            return true;
+        }
+
         return false;
     }
 }

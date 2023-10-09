@@ -38,6 +38,8 @@ public class Piece {
     }
     public void removeFromBoard() {
         this.stillOnBoard = false;
+        this.setX(-1);
+        this.setY(-1);
     }
 
 
